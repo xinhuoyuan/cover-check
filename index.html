@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>封面体检所 — 封面图六项指标体检 + AI 快检</title>
+<meta name="description" content="封面体检所是免费在线封面检测工具，上传一张视频或图文封面，即可从文字对比度、最小字号、文字占比、画面明暗、色彩饱和、留白六项指标做体检，给出体检分、逐项建议与标注问题区域的诊断图。新增 AI 快检：端侧 Gemini Nano 在浏览器本地看图给一眼判断（图片不出设备），点一下还能生成云端深度报告。">
+<link rel="canonical" href="https://cover.gaoqiangq.cn/">
+<meta property="og:title" content="封面体检所 — 封面图六项指标体检">
+<meta property="og:description" content="封面体检所是免费在线封面检测工具，上传一张视频或图文封面，即可从文字对比度、最小字号、文字占比、画面明暗、色彩饱和、留白六项指标做体检，给出体检分、逐项建议与标注问题区域的诊断图。全程前端本地像素分析，图片不上传，打开即用，适合创作者在发布前检查封面。">
+<meta property="og:url" content="https://cover.gaoqiangq.cn/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.gaoqiangq.cn/img/avatar.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="封面体检所 — 封面图六项指标体检">
+<meta name="twitter:description" content="封面体检所是免费在线封面检测工具，上传一张视频或图文封面，即可从文字对比度、最小字号、文字占比、画面明暗、色彩饱和、留白六项指标做体检，给出体检分、逐项建议与标注问题区域的诊断图。全程前端本地像素分析，图片不上传，打开即用，适合创作者在发布前检查封面。">
+<meta name="twitter:image" content="https://www.gaoqiangq.cn/img/avatar.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "封面体检所",
+  "url": "https://cover.gaoqiangq.cn/",
+  "description": "封面体检所是免费在线封面检测工具，上传一张视频或图文封面，即可从文字对比度、最小字号、文字占比、画面明暗、色彩饱和、留白六项指标做体检，给出体检分、逐项建议与标注问题区域的诊断图。新增 AI 快检：端侧 Gemini Nano 在浏览器本地看图给一眼判断（图片不出设备），点一下还能生成云端深度报告。",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": 0,
+    "priceCurrency": "CNY"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "陈俊明",
+    "url": "https://www.gaoqiangq.cn"
+  }
+}
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark">检</span>
+      <span class="brand-name">封面体检所</span>
+    </div>
+    <span class="header-note" data-i18n="headerNote">像素本地分析 · AI 端侧优先 · 免费</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1><span data-i18n="heroTitleA">封面发出去之前，</span><br class="mobile-only"><span data-i18n="heroTitleB">先做个全身体检</span></h1>
+    <p class="hero-sub" data-i18n-html="heroSub">上传一张封面，量六项硬指标：<strong>文字对比度、最小字号、文字占比、明暗、饱和度、留白</strong>。出体检分、逐项建议，外加一张把问题圈出来的诊断图。再加一层 AI：端侧快检看一眼就懂，深度报告手把手改。</p>
+  </section>
+
+  <section class="panel input-panel">
+    <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="上传封面图">
+      <div class="drop-icon">＋</div>
+      <p class="drop-main" data-i18n="dropMain">把封面图拖进来，或点击选择文件</p>
+      <p class="drop-hint" data-i18n="dropHint">支持 JPG / PNG / WebP，横竖版都行 · 也可以直接粘贴（Ctrl+V）</p>
+      <input id="fileInput" type="file" accept="image/*" hidden>
+    </div>
+    <div class="samples">
+      <span class="samples-label" data-i18n="samplesLabel">没有现成的图？拿示例先试：</span>
+      <button class="chip" data-sample="samples/good-cover.png">合格封面</button>
+      <button class="chip" data-sample="samples/good-big-highcontrast.png">大字高对比</button>
+      <button class="chip" data-sample="samples/bad-small-lowcontrast.png">字小低对比</button>
+      <button class="chip" data-sample="samples/cluttered.png">画面杂乱</button>
+      <button class="chip" data-sample="samples/whitespace.png">留白过多</button>
+    </div>
+    <div class="ai-controls">
+      <span class="ai-controls-title" data-i18n="aiControlsTitle">AI 设置</span>
+      <label class="toggle-row" for="localOnlyToggle">
+        <span class="toggle-switch"><input id="localOnlyToggle" type="checkbox"><span class="toggle-knob"></span></span>
+        <span class="toggle-text"><span class="toggle-label" data-i18n="localOnlyLabel">仅本地模式</span><small data-i18n="localOnlyHint">只用端侧模型，不发任何图片到云端；深度报告不可用</small></span>
+      </label>
+      <span class="lang-row">
+        <span class="lang-label" data-i18n="langLabel">语言</span>
+        <button id="langZhBtn" class="lang-btn" data-lang="zh" type="button">中文</button>
+        <button id="langEnBtn" class="lang-btn" data-lang="en" type="button">EN</button>
+      </span>
+    </div>
+    <p class="privacy-note" data-i18n="privacyNote">先说清：六项指标是本地像素规则测量，图片默认不上传。AI 快检优先在你的浏览器里端侧完成（图片不出设备）；点「生成深度报告」才会把图片发往云端 Gemini，平时不会。</p>
+  </section>
+
+  <section id="resultSection" class="result" hidden>
+    <div class="panel score-panel">
+      <div class="score-left">
+        <div class="score-num"><span id="totalScore">–</span><span class="score-unit">/ 100</span></div>
+        <div id="gradeChip" class="grade-chip">–</div>
+      </div>
+      <div class="score-right">
+        <p id="verdict" class="verdict"></p>
+        <p id="issueSummary" class="issue-summary"></p>
+        <p id="fileMeta" class="file-meta"></p>
+      </div>
+    </div>
+
+    <div class="panel metrics-panel">
+      <h2 data-i18n="metricsTitle">六项指标</h2>
+      <div id="metricList" class="metric-list"></div>
+      <p id="adviceLangNote" class="advice-lang-note" hidden></p>
+    </div>
+
+    <div class="panel ai-panel" id="aiFastPanel">
+      <div class="ai-head">
+        <h2 data-i18n="aiFastTitle">AI 快检</h2>
+        <span id="aiSourceBadge" class="source-badge st-idle" data-i18n="badgeNotConfigured">未配置</span>
+      </div>
+      <div id="aiFastBody" class="ai-body"></div>
+    </div>
+
+    <div class="panel ai-panel" id="aiDeepPanel">
+      <div class="ai-head">
+        <h2 data-i18n="deepTitle">深度报告</h2>
+        <span id="deepSourceBadge" class="source-badge st-idle" hidden></span>
+      </div>
+      <p class="ai-hint" data-i18n="deepHint">点下面按钮，云端 Gemini 会综合六项像素分与快检判断，给总分修正、逐项改法、3 条改写标题与平台建议。图片将发送到云端处理。</p>
+      <button id="deepReportBtn" class="primary-btn" type="button" data-i18n="deepBtn">生成深度报告（云端）</button>
+      <div id="deepBody" class="ai-body"></div>
+    </div>
+
+    <div class="panel diag-panel">
+      <div class="diag-head">
+        <h2 data-i18n="diagTitle">诊断图</h2>
+        <button id="downloadBtn" class="ghost-btn" data-i18n="downloadBtn">下载诊断图</button>
+      </div>
+      <div class="diag-canvas-wrap">
+        <canvas id="diagCanvas"></canvas>
+      </div>
+      <ol id="issueList" class="issue-list"></ol>
+      <p id="noIssue" class="no-issue" hidden data-i18n="noIssue">没有圈出问题区域——六项指标都在可接受范围。</p>
+    </div>
+
+    <div class="result-actions">
+      <button id="againBtn" class="ghost-btn" data-i18n="againBtn">再测一张</button>
+    </div>
+  </section>
+
+  <section class="panel method-panel">
+    <h2 data-i18n="methodTitle">像素指标算法口径（规则测量，全是明账）</h2>
+    <ul class="methods">
+      <li><strong>文字对比度</strong>：先按 Otsu 二值化找出字符状笔画，取每个文字块「离背景最远的 25% 字符像素」作文字色、外圈像素作背景色，按 WCAG 相对亮度公式算比值，≥4.5:1 为佳。</li>
+      <li><strong>最小字号</strong>：汉字由多个笔画分量组成，单个分量高度不代表字号；本工具按「文字行带」量——一行里所有笔画的纵向跨度≈该行字号，取各行最小值，换算成占画面高度的百分比，经验线 ≥5%。</li>
+      <li><strong>文字占比</strong>：所有文字块外接框面积之和 ÷ 画面面积，经验区间 10%–28%。</li>
+      <li><strong>画面明暗</strong>：全图逐像素相对亮度（sRGB 线性化后加权）的均值，经验区间 0.24–0.68。</li>
+      <li><strong>色彩饱和</strong>：逐像素 HSV 饱和度取均值，经验区间 0.26–0.55。</li>
+      <li><strong>留白与杂乱</strong>：16px 网格逐格测边缘密度与灰度方差，两者都极低记为「安静格」；细节格占比 ≥40% 或文字块覆盖过半时按拥挤封顶——平底被杂物切碎时，只看安静格占比会失真。</li>
+    </ul>
+    <p class="method-note" data-i18n="methodNote">边界也要说清：这是规则估算，不是读图——它不知道你的标题写得好不好、主体好不好看，只管量「缩到手机信息流里还看不看得清」这类像素层面的事。分数是参考，审美还是你说了算。</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>AI落地前线 · 微产品工厂</span>
+    <span class="footer-sep">|</span>
+    <span data-i18n="footerTag">封面管量，不管审美——标题好不好，还得看内容</span>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="core.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
