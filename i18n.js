@@ -169,11 +169,11 @@
     '留白过多': 'Too much whitespace',
   };
 
-  let lang = 'zh';
+  let lang = ((navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en');
   try {
     const saved = window.localStorage.getItem('covercheck-lang');
     if (saved === 'en' || saved === 'zh') lang = saved;
-  } catch (e) { /* private mode: keep zh */ }
+  } catch (e) { /* private mode: keep browser-detected default */ }
 
   function t(key, vars) {
     let s = (STR[lang] && STR[lang][key]) || STR.zh[key] || key;
