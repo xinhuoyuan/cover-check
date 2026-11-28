@@ -13,7 +13,10 @@ random.seed(42)
 BOLD = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
 REG = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
 W, H = 1280, 720
-OUT = "/home/hatch/workspace/products/micro-factory/cover-check/samples"
+import os
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "samples")
+TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+os.makedirs(OUT, exist_ok=True)
 
 def font(path, size):
     return ImageFont.truetype(path, size, index=2)
@@ -94,9 +97,9 @@ manifest = {}
 for name in names:
     im = Image.open(f"{OUT}/{name}.png").convert("RGBA").resize((640, 360), Image.BILINEAR)
     raw = im.tobytes()
-    with open(f"/home/hatch/workspace/products/micro-factory/cover-check/test/{name}.rgba", "wb") as f:
+    with open(os.path.join(TEST_DIR, f"{name}.rgba"), "wb") as f:
         f.write(raw)
     manifest[name] = {"width": 640, "height": 360}
-with open("/home/hatch/workspace/products/micro-factory/cover-check/test/manifest.json", "w") as f:
+with open(os.path.join(TEST_DIR, "manifest.json"), "w") as f:
     json.dump(manifest, f)
 print("done:", ", ".join(names))
